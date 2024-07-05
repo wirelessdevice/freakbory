@@ -85,6 +85,11 @@ export class BoilerplateItemSheet extends api.HandlebarsApplicationMixin(
   /** @override */
   async _prepareContext(options) {
     const context = {
+      // Validates both permissions and compendium status
+      editable: this.isEditable,
+      owner: this.isOwner,
+      limited: this.document.limited,
+      // Add the item document.
       item: this.item,
       // Adding system and flags for easier access
       system: this.item.system,

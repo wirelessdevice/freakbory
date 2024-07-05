@@ -6,9 +6,9 @@
     title='{{item.name}}'
   />
   <div class='header-fields'>
-    <h1 class='charname'>
+    <div class='document-name'>
       <input name='name' type='text' value='{{item.name}}' placeholder='Name' />
-    </h1>
+    </div>
     {{! You may prefer to have a separate header file instead of this if statement}}
     {{#if (eq item.type 'gear')}}
       <div class='grid grid-2col'>
