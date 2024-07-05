@@ -87,6 +87,9 @@ export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
     const context = {
       // Validates both permissions and compendium status
       editable: this.isEditable,
+      owner: this.isOwner,
+      limited: this.document.limited,
+      // Add the actor document.
       actor: this.actor,
       // Add the actor's data to context.data for easier access, as well as flags.
       system: this.actor.system,
