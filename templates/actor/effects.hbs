@@ -23,12 +23,13 @@
             class='effect-control'
             data-action='createDoc'
             data-document-class='ActiveEffect'
+            data-origin="{{@root.actor.uuid}}"
+            data-img="icons/svg/aura.svg"
             {{#if (eq section.type "inactive")}}
               data-disabled="true"
             {{else if (eq section.type "temporary")}}
               data-duration.rounds="1"
             {{/if}}
-            data-origin="{{@root.actor.uuid}}"
             title='{{localize "DOCUMENT.Create" type='Effect'}}'
           >
             <i class='fas fa-plus'></i>
@@ -47,7 +48,7 @@
             data-drag="true"
           >
             <div class='effect-name flexrow'>
-              <img class='effect-image' src='{{effect.img}}' />
+              <img class='effect-image' src='{{effect.img}}' height="24" width="24"/>
               <div>{{effect.name}}</div>
             </div>
             <div class='effect-source'>{{effect.sourceName}}</div>
