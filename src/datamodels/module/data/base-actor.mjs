@@ -1,5 +1,7 @@
 export default class BoilerplateActorBase extends foundry.abstract
   .TypeDataModel {
+  static LOCALIZATION_PREFIXES = ['BOILERPLATE.Actor.base'];
+
   static defineSchema() {
     const fields = foundry.data.fields;
     const requiredInteger = { required: true, nullable: false, integer: true };

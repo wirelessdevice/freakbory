@@ -23,13 +23,19 @@
       "base": {
         "FIELDS": {
           "biography": {"label": "Biography"},
-          "health": {"label": "Health"},
-          "power": {"label": "Power"}
+          "health": {
+            "value": {"label": "Health"},
+            "max": {"label": "Maximum Health"}
+          },
+          "power": {
+            "value": {"label": "Power"},
+            "max": {"label": "Maximum Power"}
+          }
         }
       },
       "Character": {
         "FIELDS": {
-          "level": {"label": "Level"}
+          "attributes.level.value": {"label": "Level"}
         }
       },
       "NPC": {
