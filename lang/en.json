@@ -40,9 +40,9 @@
       },
       "NPC": {
         "FIELDS": {
-          "cr": {"label": "CR"},
-          "xp": {"label": "XP"}
-        }
+          "cr": {"label": "CR"}
+        },
+        "xp": {"label": "XP"}
       }
     },
     "Item": {

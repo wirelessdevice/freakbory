@@ -16,11 +16,6 @@ export default class BoilerplateNPC extends BoilerplateActorBase {
       initial: 1,
       min: 0,
     });
-    schema.xp = new fields.NumberField({
-      ...requiredInteger,
-      initial: 0,
-      min: 0,
-    });
 
     return schema;
   }
