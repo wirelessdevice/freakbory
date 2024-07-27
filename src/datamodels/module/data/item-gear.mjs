@@ -1,6 +1,6 @@
 import BoilerplateItemBase from './base-item.mjs';
 
-export default class BoilerplateItem extends BoilerplateItemBase {
+export default class BoilerplateGear extends BoilerplateItemBase {
   static LOCALIZATION_PREFIXES = [
     'BOILERPLATE.Item.base',
     'BOILERPLATE.Item.Gear',
