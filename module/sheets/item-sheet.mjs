@@ -236,7 +236,7 @@ export class BoilerplateItemSheet extends api.HandlebarsApplicationMixin(
   /**
    * Renders an embedded document's sheet
    *
-   * @this BoilerplateActorSheet
+   * @this BoilerplateItemSheet
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @protected
@@ -249,7 +249,7 @@ export class BoilerplateItemSheet extends api.HandlebarsApplicationMixin(
   /**
    * Handles item deletion
    *
-   * @this BoilerplateActorSheet
+   * @this BoilerplateItemSheet
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @protected
@@ -262,7 +262,7 @@ export class BoilerplateItemSheet extends api.HandlebarsApplicationMixin(
   /**
    * Handle creating a new Owned Item or ActiveEffect for the actor using initial data defined in the HTML dataset
    *
-   * @this BoilerplateActorSheet
+   * @this BoilerplateItemSheet
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @private
@@ -296,7 +296,7 @@ export class BoilerplateItemSheet extends api.HandlebarsApplicationMixin(
   /**
    * Determines effect parent to pass to helper
    *
-   * @this BoilerplateActorSheet
+   * @this BoilerplateItemSheet
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @private
