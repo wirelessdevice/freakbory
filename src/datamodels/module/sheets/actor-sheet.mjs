@@ -277,7 +277,7 @@ export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
   /**
    * Handle changing a Document's image.
    *
-   * @this GrimwildActorSheet
+   * @this BoilerplateActorSheet
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @returns {Promise}
@@ -294,8 +294,7 @@ export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
       type: 'image',
       redirectToRoot: img ? [img] : [],
       callback: (path) => {
-        target.src = path;
-        this.document.update({ img: path });
+        this.document.update({ [attr]: path });
       },
       top: this.position.top + 40,
       left: this.position.left + 10,
