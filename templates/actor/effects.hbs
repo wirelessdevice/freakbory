@@ -53,6 +53,7 @@
             <div class='effect-source'>{{effect.sourceName}}</div>
             <div class='effect-duration'>{{effect.duration.label}}</div>
             <div class='effect-controls flexrow'>
+              {{#if @root.editable}}
               <a
                 class='effect-control'
                 data-action='toggleEffect'
@@ -60,6 +61,7 @@
               >
                 <i class='fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}'></i>
               </a>
+              {{/if}}
               <a
                 class='effect-control'
                 data-action='viewDoc'
@@ -67,6 +69,7 @@
               >
                 <i class='fas fa-edit'></i>
               </a>
+              {{#if @root.editable}}
               <a
                 class='effect-control'
                 data-action='deleteDoc'
@@ -74,6 +77,7 @@
               >
                 <i class='fas fa-trash'></i>
               </a>
+              {{/if}}
             </div>
           </li>
         {{/each}}
