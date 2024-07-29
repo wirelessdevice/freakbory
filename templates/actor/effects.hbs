@@ -23,12 +23,13 @@
             class='effect-control'
             data-action='createDoc'
             data-document-class='ActiveEffect'
+            data-origin="{{@root.actor.uuid}}"
+            data-img="icons/svg/aura.svg"
             {{#if (eq section.type "inactive")}}
               data-disabled="true"
             {{else if (eq section.type "temporary")}}
               data-duration.rounds="1"
             {{/if}}
-            data-origin="{{@root.actor.uuid}}"
             title='{{localize "DOCUMENT.Create" type='Effect'}}'
           >
             <i class='fas fa-plus'></i>
@@ -47,12 +48,13 @@
             data-drag="true"
           >
             <div class='effect-name flexrow'>
-              <img class='effect-image' src='{{effect.img}}' />
+              <img class='effect-image' src='{{effect.img}}' height="24" width="24"/>
               <div>{{effect.name}}</div>
             </div>
             <div class='effect-source'>{{effect.sourceName}}</div>
             <div class='effect-duration'>{{effect.duration.label}}</div>
             <div class='effect-controls flexrow'>
+              {{#if @root.editable}}
               <a
                 class='effect-control'
                 data-action='toggleEffect'
@@ -60,6 +62,7 @@
               >
                 <i class='fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}'></i>
               </a>
+              {{/if}}
               <a
                 class='effect-control'
                 data-action='viewDoc'
@@ -67,6 +70,7 @@
               >
                 <i class='fas fa-edit'></i>
               </a>
+              {{#if @root.editable}}
               <a
                 class='effect-control'
                 data-action='deleteDoc'
@@ -74,6 +78,7 @@
               >
                 <i class='fas fa-trash'></i>
               </a>
+              {{/if}}
             </div>
           </li>
         {{/each}}

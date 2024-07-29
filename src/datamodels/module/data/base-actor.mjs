@@ -1,5 +1,7 @@
 export default class BoilerplateActorBase extends foundry.abstract
   .TypeDataModel {
+  static LOCALIZATION_PREFIXES = ["BOILERPLATE.Actor.base"];
+
   static defineSchema() {
     const fields = foundry.data.fields;
     const requiredInteger = { required: true, nullable: false, integer: true };
@@ -17,7 +19,7 @@ export default class BoilerplateActorBase extends foundry.abstract
       value: new fields.NumberField({ ...requiredInteger, initial: 5, min: 0 }),
       max: new fields.NumberField({ ...requiredInteger, initial: 5 }),
     });
-    schema.biography = new fields.StringField({ required: true, blank: true }); // equivalent to passing ({initial: ""}) for StringFields
+    schema.biography = new fields.HTMLField();
 
     return schema;
   }

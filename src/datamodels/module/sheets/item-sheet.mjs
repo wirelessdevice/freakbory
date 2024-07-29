@@ -88,7 +88,7 @@ export class BoilerplateItemSheet extends api.HandlebarsApplicationMixin(
     const context = {
       // Validates both permissions and compendium status
       editable: this.isEditable,
-      owner: this.isOwner,
+      owner: this.document.isOwner,
       limited: this.document.limited,
       // Add the item document.
       item: this.item,
@@ -210,8 +210,8 @@ export class BoilerplateItemSheet extends api.HandlebarsApplicationMixin(
 
   /**
    * Handle changing a Document's image.
-   * 
-   * @this GrimwildActorSheet
+   *
+   * @this BoilerplateItemSheet
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @returns {Promise}
@@ -220,17 +220,18 @@ export class BoilerplateItemSheet extends api.HandlebarsApplicationMixin(
   static async _onEditImage(event, target) {
     const attr = target.dataset.edit;
     const current = foundry.utils.getProperty(this.document, attr);
-    const { img } = this.document.constructor.getDefaultArtwork?.(this.document.toObject()) ?? {};
+    const { img } =
+      this.document.constructor.getDefaultArtwork?.(this.document.toObject()) ??
+      {};
     const fp = new FilePicker({
       current,
-      type: "image",
+      type: 'image',
       redirectToRoot: img ? [img] : [],
-      callback: path => {
-        target.src = path;
-        this.document.update({'img': path});
+      callback: (path) => {
+        this.document.update({ [attr]: path });
       },
       top: this.position.top + 40,
-      left: this.position.left + 10
+      left: this.position.left + 10,
     });
     return fp.browse();
   }
@@ -238,7 +239,7 @@ export class BoilerplateItemSheet extends api.HandlebarsApplicationMixin(
   /**
    * Renders an embedded document's sheet
    *
-   * @this BoilerplateActorSheet
+   * @this BoilerplateItemSheet
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @protected
@@ -251,7 +252,7 @@ export class BoilerplateItemSheet extends api.HandlebarsApplicationMixin(
   /**
    * Handles item deletion
    *
-   * @this BoilerplateActorSheet
+   * @this BoilerplateItemSheet
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @protected
@@ -264,7 +265,7 @@ export class BoilerplateItemSheet extends api.HandlebarsApplicationMixin(
   /**
    * Handle creating a new Owned Item or ActiveEffect for the actor using initial data defined in the HTML dataset
    *
-   * @this BoilerplateActorSheet
+   * @this BoilerplateItemSheet
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @private
@@ -298,7 +299,7 @@ export class BoilerplateItemSheet extends api.HandlebarsApplicationMixin(
   /**
    * Determines effect parent to pass to helper
    *
-   * @this BoilerplateActorSheet
+   * @this BoilerplateItemSheet
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @private

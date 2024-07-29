@@ -1,7 +1,10 @@
 import BoilerplateActorBase from './base-actor.mjs';
 
 export default class BoilerplateCharacter extends BoilerplateActorBase {
-  static LOCALIZATION_PREFIXES = ['BOILERPLATE.Actor.Character'];
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    'BOILERPLATE.Actor.Character',
+  ];
 
   static defineSchema() {
     const fields = foundry.data.fields;

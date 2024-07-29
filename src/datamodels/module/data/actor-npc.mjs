@@ -1,7 +1,10 @@
 import BoilerplateActorBase from './base-actor.mjs';
 
 export default class BoilerplateNPC extends BoilerplateActorBase {
-  static LOCALIZATION_PREFIXES = ['BOILERPLATE.Actor.NPC'];
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    'BOILERPLATE.Actor.NPC',
+  ];
 
   static defineSchema() {
     const fields = foundry.data.fields;
@@ -11,11 +14,6 @@ export default class BoilerplateNPC extends BoilerplateActorBase {
     schema.cr = new fields.NumberField({
       ...requiredInteger,
       initial: 1,
-      min: 0,
-    });
-    schema.xp = new fields.NumberField({
-      ...requiredInteger,
-      initial: 0,
       min: 0,
     });
 
