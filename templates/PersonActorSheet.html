@@ -1,0 +1,62 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<header class="sheet-header">
+	
+		<input id="name" class="characterName" type="text" value="{{data.name}}" />
+		<br/>
+		<span class="title">Details</span>
+		<div>
+			<div style="float:left">
+				<span>Age: </span>
+				<input id="age" type="text" value="{{data.details.age}}" />
+				|
+				<span>Damage: </span>
+				<input id="damage" type="number" value="{{data.damage.value}}" /> / <input id="damageMax" type="number" value="{{data.damage.max}}" />
+			</div>
+			<div style="float:left">
+				<span>Gender Identity: </span>
+				<input id="age" type="text" value="{{data.details.gender}}" />
+				|
+				<span>Fatigue: </span>
+				<input id="fatigue" type="number" value="{{data.fatigue.value}}" /> / <input id="fatigueMax" type="number" value="{{data.fatigue.max}}" />
+			</div>
+			<div style="float:left">
+				<span>Build: </span>
+				<input id="age" type="text" value="{{data.details.build}}" />
+				{{#if eq data.type "pc"}}
+				|
+				<span>Luck: </span>
+				<input id="luck" type="number" value="{{data.luck.value}}" /> / <input id="luckMax" type="number" value="{{data.luck.max}}" />
+				{{/if}}
+			</div>
+		</div>
+		
+	</header>
+	
+	<section class="sheet-body">
+	
+		<nav class="sheet-tabs tabs" data-group="primary">
+			{{#if eq data.type "pc"}}
+			<a class="item" data-tab="gameplayPC">Gameplay</a>
+			{{else if eq data.type "npc"}}
+			<a class="item" data-tab="gameplayNPC">Gameplay</a>
+			{{/if}}
+			<a class="item" data-tab="character">Character</a>
+			<a class="item" data-tab="equipment">Equipment</a>
+			{{#if eq data.type "pc"}}
+			<a class="item" data-tab="progression">Progression</a>
+			{{/if}}
+			<a class="item" data-tab="options">Options</a>
+		</nav>
+		
+		{{#if eq data.type "pc"}}
+			{{> systems/ATOW/templates/parts/person/gameplayPC.html}}
+		{{else if eq data.type "npc"}}
+			{{> systems/ATOW/templates/parts/person/gameplayNPC.html}}
+		{{/if}}
+		{{> systems/ATOW/templates/parts/person/character.html}}
+		{{> systems/ATOW/templates/parts/person/equipment.html}}
+		{{> systems/ATOW/templates/parts/person/progression.html}}
+		{{> systems/ATOW/templates/parts/person/options.html}}
+		
+	</section>
+</form>
