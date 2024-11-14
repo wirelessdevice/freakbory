@@ -1,10 +1,10 @@
-export const BOILERPLATE = {};
+export const ATOW = {};
 
 /**
  * The set of Ability Scores used within the system.
  * @type {Object}
  */
-BOILERPLATE.abilities = {
+/*ATOW.abilities = {
   str: 'BOILERPLATE.Ability.Str.long',
   dex: 'BOILERPLATE.Ability.Dex.long',
   con: 'BOILERPLATE.Ability.Con.long',
@@ -21,3 +21,4 @@ BOILERPLATE.abilityAbbreviations = {
   wis: 'BOILERPLATE.Ability.Wis.abbr',
   cha: 'BOILERPLATE.Ability.Cha.abbr',
 };
+*/

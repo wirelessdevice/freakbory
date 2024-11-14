@@ -1,0 +1,10 @@
+<div class="tab gameplay" data-group="primary" data-tab="gameplayPC">
+	<span class="title">Gameplay</span>
+		<div style="float:left">
+		{{#each systemData.attributes as | key attribute |}}
+			<span>{{attribute}}: </span>
+			<span id="system.attributes.{{attribute}}.level" value="{{attribute.level}}" />
+			<span> | </span>
+		{{/each}
+		</div>
+</div>
