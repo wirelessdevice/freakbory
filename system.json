@@ -41,7 +41,7 @@
   "packs": [],
   "packFolders": [],
   "socket": false,
-  "manifest": "https://raw.githubusercontent.com/arwbusiness/atow/master/system.json",
+  "manifest": "https://raw.githubusercontent.com/arwbusiness/atow/main/system.json",
   "download": "https://github.com/arwbusiness/atow/archive/refs/tags/main.zip",
   "background": "systems/boilerplate/assets/anvil-impact.png",
   "gridDistance": 5,
