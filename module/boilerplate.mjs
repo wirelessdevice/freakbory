@@ -77,7 +77,12 @@ Handlebars.registerHelper('toLowerCase', function (str) {
 
 Hooks.once('ready', function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
-  Hooks.on('hotbarDrop', (bar, data, slot) => createDocMacro(data, slot));
+  Hooks.on('hotbarDrop', (bar, data, slot) => {
+    // Let the default foundry handler run if it's not an Item
+    if (data.type !== 'Item') return;
+    createDocMacro(data, slot);
+    return false;
+  });
 });
 
 /* -------------------------------------------- */
@@ -89,7 +94,7 @@ Hooks.once('ready', function () {
  * Get an existing item macro if one exists, otherwise create a new one.
  * @param {Object} data     The dropped data
  * @param {number} slot     The hotbar slot to use
- * @returns {Promise}
+ * @returns {Promise<void>}
  */
 async function createDocMacro(data, slot) {
   // First, determine if this is a valid owned item.
@@ -117,7 +122,6 @@ async function createDocMacro(data, slot) {
     });
   }
   game.user.assignHotbarMacro(macro, slot);
-  return false;
 }
 
 /**
