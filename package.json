@@ -6,7 +6,7 @@
     "build": "sass src/scss/boilerplate.scss css/boilerplate.css --style=expanded --no-source-map",
     "watch": "sass src/scss/boilerplate.scss css/boilerplate.css --style=expanded --source-map --watch",
     "generate": "node src/generate-boilerplate-system.mjs",
-    "createSymlinks": "node tools/create-symlinks.mjs"
+    "createSymlinks": "node src/create-symlinks.mjs"
   },
   "browserslist": [
     "last 3 versions"
