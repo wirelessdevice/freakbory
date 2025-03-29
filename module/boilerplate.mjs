@@ -6,6 +6,8 @@ import { BoilerplateActorSheet } from './sheets/actor-sheet.mjs';
 import { BoilerplateItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
 import { BOILERPLATE } from './helpers/config.mjs';
+// Import DataModel classes
+import * as models from './data/_module.mjs';
 
 const collections = foundry.documents.collections;
 const sheets = foundry.appv1.sheets;
@@ -28,6 +30,7 @@ globalThis.boilerplate = {
   utils: {
     rollItemMacro,
   },
+  models,
 };
 
 Hooks.once('init', function () {
@@ -43,9 +46,22 @@ Hooks.once('init', function () {
     decimals: 2,
   };
 
-  // Define custom Document classes
+  // Define custom Document and DataModel classes
   CONFIG.Actor.documentClass = BoilerplateActor;
+
+  // Note that you don't need to declare a DataModel
+  // for the base actor/item classes - they are included
+  // with the Character/NPC as part of super.defineSchema()
+  CONFIG.Actor.dataModels = {
+    character: models.BoilerplateCharacter,
+    npc: models.BoilerplateNPC,
+  };
   CONFIG.Item.documentClass = BoilerplateItem;
+  CONFIG.Item.dataModels = {
+    gear: models.BoilerplateGear,
+    feature: models.BoilerplateFeature,
+    spell: models.BoilerplateSpell,
+  };
 
   // Active Effects are never copied to the Actor,
   // but will still apply to the Actor from within the Item

@@ -17,6 +17,27 @@
       "discord": "chaosos"
     }
   ],
+  "documentTypes": {
+    "Actor": {
+        "character": {
+            "htmlFields": ["biography"]
+        },
+        "npc": {
+            "htmlFields": ["biography"]
+        }
+    },
+    "Item": {
+        "feature": {
+            "htmlFields": ["description"]
+        },
+        "gear": {
+            "htmlFields": ["description"]
+        },
+        "spell": {
+            "htmlFields": ["description"]
+        }
+    }
+  },
   "flags": {
     "hotReload": {
       "extensions": ["css", "html", "hbs", "json"],
@@ -37,8 +58,8 @@
   ],
   "version": "3.0.0",
   "compatibility": {
-    "minimum": "12.328",
-    "verified": "12.330"
+    "minimum": "13.339",
+    "verified": "13.339"
   },
   "esmodules": ["module/boilerplate.mjs"],
   "styles": ["css/boilerplate.css"],

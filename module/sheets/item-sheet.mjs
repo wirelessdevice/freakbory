@@ -99,6 +99,9 @@ export class BoilerplateItemSheet extends api.HandlebarsApplicationMixin(
       config: CONFIG.BOILERPLATE,
       // You can factor out context construction to helper functions
       tabs: this._getTabs(options.parts),
+      // Necessary for formInput and formFields helpers
+      fields: this.document.schema.fields,
+      systemFields: this.document.system.schema.fields,
     };
 
     return context;

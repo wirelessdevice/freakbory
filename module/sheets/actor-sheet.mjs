@@ -98,6 +98,9 @@ export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
       // Adding a pointer to CONFIG.BOILERPLATE
       config: CONFIG.BOILERPLATE,
       tabs: this._getTabs(options.parts),
+      // Necessary for formInput and formFields helpers
+      fields: this.document.schema.fields,
+      systemFields: this.document.system.schema.fields,
     };
 
     // Offloading context prep to a helper function
