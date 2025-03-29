@@ -42,18 +42,23 @@ export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
     },
     features: {
       template: 'systems/boilerplate/templates/actor/features.hbs',
+      scrollable: [""],
     },
     biography: {
       template: 'systems/boilerplate/templates/actor/biography.hbs',
+      scrollable: [""],
     },
     gear: {
       template: 'systems/boilerplate/templates/actor/gear.hbs',
+      scrollable: [""],
     },
     spells: {
       template: 'systems/boilerplate/templates/actor/spells.hbs',
+      scrollable: [""],
     },
     effects: {
       template: 'systems/boilerplate/templates/actor/effects.hbs',
+      scrollable: [""],
     },
   };
 
@@ -221,7 +226,6 @@ export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
 
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
-      console.log(i);
       // Append to gear.
       if (i.type === 'gear') {
         gear.push(i);
