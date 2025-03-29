@@ -7,6 +7,9 @@ import { BoilerplateItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
 import { BOILERPLATE } from './helpers/config.mjs';
 
+const collections = foundry.documents.collections;
+const sheets = foundry.appv1.sheets;
+
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
@@ -50,13 +53,13 @@ Hooks.once('init', function () {
   CONFIG.ActiveEffect.legacyTransferral = false;
 
   // Register sheet application classes
-  Actors.unregisterSheet('core', ActorSheet);
-  Actors.registerSheet('boilerplate', BoilerplateActorSheet, {
+  collections.Actors.unregisterSheet('core', sheets.ActorSheet);
+  collections.Actors.registerSheet('boilerplate', BoilerplateActorSheet, {
     makeDefault: true,
     label: 'BOILERPLATE.SheetLabels.Actor',
   });
-  Items.unregisterSheet('core', ItemSheet);
-  Items.registerSheet('boilerplate', BoilerplateItemSheet, {
+  collections.Items.unregisterSheet('core', sheets.ItemSheet);
+  collections.Items.registerSheet('boilerplate', BoilerplateItemSheet, {
     makeDefault: true,
     label: 'BOILERPLATE.SheetLabels.Item',
   });
