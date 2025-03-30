@@ -102,6 +102,10 @@ class SystemGenerator {
         replacement: `flags.${this.propName}`
       },
       {
+        pattern: new RegExp(/globalThis\.boilerplate/g),
+        replacement: `flags.${this.propName}`
+      },
+      {
         pattern: 'boilerplate',
         replacement: this.packageName
       },
