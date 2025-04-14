@@ -103,7 +103,7 @@ class SystemGenerator {
       },
       {
         pattern: new RegExp(/globalThis\.boilerplate/g),
-        replacement: `flags.${this.propName}`
+        replacement: `globalThis.${this.propName}`
       },
       {
         pattern: 'boilerplate',
