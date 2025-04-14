@@ -15,7 +15,7 @@ export default class BoilerplateSpell extends BoilerplateItemBase {
       nullable: false,
       integer: true,
       initial: 1,
-      min: 1,
+      min: 0,
       max: 9,
     });
 

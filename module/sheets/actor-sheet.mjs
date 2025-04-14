@@ -9,11 +9,6 @@ const { api, sheets } = foundry.applications;
 export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
   sheets.ActorSheetV2
 ) {
-  constructor(options = {}) {
-    super(options);
-    this.#dragDrop = this.#createDragDropHandlers();
-  }
-
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ['boilerplate', 'actor'],
@@ -30,7 +25,7 @@ export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
       roll: this._onRoll,
     },
     // Custom property that's merged into `this.options`
-    dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
+    // dragDrop: [{ dragSelector: '.draggable', dropSelector: null }],
     form: {
       submitOnChange: true,
     },
@@ -47,18 +42,23 @@ export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
     },
     features: {
       template: 'systems/boilerplate/templates/actor/features.hbs',
+      scrollable: [""],
     },
     biography: {
       template: 'systems/boilerplate/templates/actor/biography.hbs',
+      scrollable: [""],
     },
     gear: {
       template: 'systems/boilerplate/templates/actor/gear.hbs',
+      scrollable: [""],
     },
     spells: {
       template: 'systems/boilerplate/templates/actor/spells.hbs',
+      scrollable: [""],
     },
     effects: {
       template: 'systems/boilerplate/templates/actor/effects.hbs',
+      scrollable: [""],
     },
   };
 
@@ -98,6 +98,9 @@ export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
       // Adding a pointer to CONFIG.BOILERPLATE
       config: CONFIG.BOILERPLATE,
       tabs: this._getTabs(options.parts),
+      // Necessary for formInput and formFields helpers
+      fields: this.document.schema.fields,
+      systemFields: this.document.system.schema.fields,
     };
 
     // Offloading context prep to a helper function
@@ -257,8 +260,8 @@ export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
    * @protected
    * @override
    */
-  _onRender(context, options) {
-    this.#dragDrop.forEach((d) => d.bind(this.element));
+  async _onRender(context, options) {
+    await super._onRender(context, options);
     this.#disableOverrides();
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
@@ -431,77 +434,6 @@ export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
    ***************/
 
   /**
-   * Define whether a user is able to begin a dragstart workflow for a given drag selector
-   * @param {string} selector       The candidate HTML selector for dragging
-   * @returns {boolean}             Can the current user drag this selector?
-   * @protected
-   */
-  _canDragStart(selector) {
-    // game.user fetches the current user
-    return this.isEditable;
-  }
-
-  /**
-   * Define whether a user is able to conclude a drag-and-drop workflow for a given drop selector
-   * @param {string} selector       The candidate HTML selector for the drop target
-   * @returns {boolean}             Can the current user drop on this selector?
-   * @protected
-   */
-  _canDragDrop(selector) {
-    // game.user fetches the current user
-    return this.isEditable;
-  }
-
-  /**
-   * Callback actions which occur at the beginning of a drag start workflow.
-   * @param {DragEvent} event       The originating DragEvent
-   * @protected
-   */
-  _onDragStart(event) {
-    const docRow = event.currentTarget.closest('li');
-    if ('link' in event.target.dataset) return;
-
-    // Chained operation
-    let dragData = this._getEmbeddedDocument(docRow)?.toDragData();
-
-    if (!dragData) return;
-
-    // Set data transfer
-    event.dataTransfer.setData('text/plain', JSON.stringify(dragData));
-  }
-
-  /**
-   * Callback actions which occur when a dragged element is over a drop target.
-   * @param {DragEvent} event       The originating DragEvent
-   * @protected
-   */
-  _onDragOver(event) {}
-
-  /**
-   * Callback actions which occur when a dragged element is dropped on a target.
-   * @param {DragEvent} event       The originating DragEvent
-   * @protected
-   */
-  async _onDrop(event) {
-    const data = TextEditor.getDragEventData(event);
-    const actor = this.actor;
-    const allowed = Hooks.call('dropActorSheetData', actor, this, data);
-    if (allowed === false) return;
-
-    // Handle different data types
-    switch (data.type) {
-      case 'ActiveEffect':
-        return this._onDropActiveEffect(event, data);
-      case 'Actor':
-        return this._onDropActor(event, data);
-      case 'Item':
-        return this._onDropItem(event, data);
-      case 'Folder':
-        return this._onDropFolder(event, data);
-    }
-  }
-
-  /**
    * Handle the dropping of ActiveEffect data onto an Actor Sheet
    * @param {DragEvent} event                  The concluding DragEvent which contains drop data
    * @param {object} data                      The data transfer extracted from the event
@@ -592,25 +524,6 @@ export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
   /* -------------------------------------------- */
 
   /**
-   * Handle dropping of an item reference or item data onto an Actor Sheet
-   * @param {DragEvent} event            The concluding DragEvent which contains drop data
-   * @param {object} data                The data transfer extracted from the event
-   * @returns {Promise<Item[]|boolean>}  The created or updated Item instances, or false if the drop was not permitted.
-   * @protected
-   */
-  async _onDropItem(event, data) {
-    if (!this.actor.isOwner) return false;
-    const item = await Item.implementation.fromDropData(data);
-
-    // Handle item sorting within the same Actor
-    if (this.actor.uuid === item.parent?.uuid)
-      return this._onSortItem(event, item);
-
-    // Create the owned item
-    return this._onDropItemCreate(item, event);
-  }
-
-  /**
    * Handle dropping of a Folder on an Actor Sheet.
    * The core sheet currently supports dropping a Folder of Items to create all items as owned items.
    * @param {DragEvent} event     The concluding DragEvent which contains drop data
@@ -642,79 +555,6 @@ export class BoilerplateActorSheet extends api.HandlebarsApplicationMixin(
   async _onDropItemCreate(itemData, event) {
     itemData = itemData instanceof Array ? itemData : [itemData];
     return this.actor.createEmbeddedDocuments('Item', itemData);
-  }
-
-  /**
-   * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings
-   * @param {Event} event
-   * @param {Item} item
-   * @private
-   */
-  _onSortItem(event, item) {
-    // Get the drag source and drop target
-    const items = this.actor.items;
-    const dropTarget = event.target.closest('[data-item-id]');
-    if (!dropTarget) return;
-    const target = items.get(dropTarget.dataset.itemId);
-
-    // Don't sort on yourself
-    if (item.id === target.id) return;
-
-    // Identify sibling items based on adjacent HTML elements
-    const siblings = [];
-    for (let el of dropTarget.parentElement.children) {
-      const siblingId = el.dataset.itemId;
-      if (siblingId && siblingId !== item.id)
-        siblings.push(items.get(el.dataset.itemId));
-    }
-
-    // Perform the sort
-    const sortUpdates = SortingHelpers.performIntegerSort(item, {
-      target,
-      siblings,
-    });
-    const updateData = sortUpdates.map((u) => {
-      const update = u.update;
-      update._id = u.target._id;
-      return update;
-    });
-
-    // Perform the update
-    return this.actor.updateEmbeddedDocuments('Item', updateData);
-  }
-
-  /** The following pieces set up drag handling and are unlikely to need modification  */
-
-  /**
-   * Returns an array of DragDrop instances
-   * @type {DragDrop[]}
-   */
-  get dragDrop() {
-    return this.#dragDrop;
-  }
-
-  // This is marked as private because there's no real need
-  // for subclasses or external hooks to mess with it directly
-  #dragDrop;
-
-  /**
-   * Create drag-and-drop workflow handlers for this Application
-   * @returns {DragDrop[]}     An array of DragDrop handlers
-   * @private
-   */
-  #createDragDropHandlers() {
-    return this.options.dragDrop.map((d) => {
-      d.permissions = {
-        dragstart: this._canDragStart.bind(this),
-        drop: this._canDragDrop.bind(this),
-      };
-      d.callbacks = {
-        dragstart: this._onDragStart.bind(this),
-        dragover: this._onDragOver.bind(this),
-        drop: this._onDrop.bind(this),
-      };
-      return new DragDrop(d);
-    });
   }
 
   /********************

@@ -20,7 +20,6 @@ class SystemGenerator {
     this.titleName = answers.titleName.trim();
     this.className = answers.className.trim();
     this.constantName = answers.constantName.trim();
-    this.dataModel = answers.dataModel ?? false;
     // Transform answers.
     this.packageName = this.transformPackageName();
     this.className = this.transformClassName();
@@ -83,20 +82,6 @@ class SystemGenerator {
         if (err) throw err;
       });
     });
-
-    // Handle data model conversion.
-    if (this.dataModel) {
-      const dataModelFiles = globSync('src/datamodels/*');
-      dataModelFiles.forEach(source => {
-        const dest = source.replaceAll('\\', '/').replace('src/datamodels/', '');
-        fs.cpSync(source, `build/${this.packageName}/${dest}`, {recursive: true, force: true}, (err) => {
-          if (err) throw err;
-        });
-      });
-    }
-
-    // Remove data model source.
-    fs.rmSync(`build/${this.packageName}/src/datamodels`, {recursive: true, force: true});
   }
 
   /**
@@ -115,6 +100,10 @@ class SystemGenerator {
       {
         pattern: new RegExp(/flags\.boilerplate/g),
         replacement: `flags.${this.propName}`
+      },
+      {
+        pattern: new RegExp(/globalThis\.boilerplate/g),
+        replacement: `globalThis.${this.propName}`
       },
       {
         pattern: 'boilerplate',
@@ -230,19 +219,12 @@ inquirer
       name: 'constantName',
       message: 'Enter the name of your system for usage in constants, such as "MY_SYSTEM" (alphanumeric characters and underscores only):',
       default: 'MY_SYSTEM'
-    },
-    {
-      type: 'confirm',
-      name: 'dataModel',
-      message: 'Use DataModel instead of template.json?',
-      default: false
     }
   ])
   // Handle answers.
   .then((answers) => {
     // Validate for empty values.
     for (let [question, answer] of Object.entries(answers)) {
-      if (question === 'dataModel') continue;
       if (!answer || !answer.length || answer.trim().length < 1) {
         throw new Error(`${question} cannot be empty.`);
       }
