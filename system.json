@@ -105,7 +105,7 @@
     },
     "primaryTokenAttribute": "hp",
     "secondaryTokenAttribute": null,
-    "url": "https://github.com/fvtt-fria-ligan/morkborg-foundry-vtt",
-    "manifest": "https://github.com/fvtt-fria-ligan/morkborg-foundry-vtt/releases/latest/download/system.json",
-    "download": "https://github.com/fvtt-fria-ligan/morkborg-foundry-vtt/releases/download/4.0.6/system.zip"
+    "url": "https://github.com/wirelessdevice/freakbory",
+    "manifest": "https://github.com/wirelessdevice/freakbory/releases/latest/download/system.json",
+    "download": "https://github.com/wirelessdevice/freakbory/releases/download/0.1.0/system.zip"
 }
